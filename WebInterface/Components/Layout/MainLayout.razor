@@ -1,0 +1,35 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="bib" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+            </svg>
+            <div>
+                <h4>User1</h4>
+                <h7>online</h7>
+            </div>
+
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+
+        <div class="down-row px-4">
+            <span class="bi bi-user-fill-nav-menu" aria-hidden="true"></span> User4
+        </div>
+    </main>
+
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
