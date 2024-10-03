@@ -1,7 +1,3 @@
 obj/
 bin/
-<<<<<<< HEAD
-.vscode
-=======
 .vscode/
->>>>>>> 5780355 (chore: remove unnecesary files)
