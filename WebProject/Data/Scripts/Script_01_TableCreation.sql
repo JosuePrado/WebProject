@@ -1,0 +1,33 @@
+CREATE TABLE Users (
+    UserId SERIAL PRIMARY KEY,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    Username VARCHAR(100) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE Channels (
+    ChannelId SERIAL PRIMARY KEY,
+    ChannelName VARCHAR(100) NOT NULL,
+    IsPrivate BOOLEAN NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE ChannelMembers (
+    ChannelId INT NOT NULL,
+    UserId INT NOT NULL,
+    JoinedAt TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (ChannelId, UserId),
+    FOREIGN KEY (ChannelId) REFERENCES Channels (ChannelId) ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users (UserId) ON DELETE CASCADE
+);
+
+CREATE TABLE Messages (
+    MessageId SERIAL PRIMARY KEY,
+    ChannelId INT NOT NULL,
+    UserId INT NOT NULL,
+    Content TEXT NOT NULL,
+    SentAt TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (ChannelId) REFERENCES Channels (ChannelId) ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users (UserId) ON DELETE CASCADE
+);
