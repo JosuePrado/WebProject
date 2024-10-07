@@ -19,6 +19,10 @@
     <EmbeddedResource Include="Data/Scripts/*.sql" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ShareModels\ShareModels.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <InvariantGlobalization>true</InvariantGlobalization>
 </PropertyGroup>
