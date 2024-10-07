@@ -1,0 +1,26 @@
+@page "/login"
+<h3>Login</h3>
+
+@* <EditForm> *@
+    <div class="form-field">
+        <label>Email:</label>
+        <div>
+            <InputText Class="form-control" @bind-Value="@userEmail" />
+        </div>
+    </div>
+    <div class="form-field">
+        <label>Password:</label>
+        <div>
+            <InputText Class="form-control" @bind-Value="@userPassword" />
+            
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+@* </EditForm> *@
+
+@code {
+    private string userEmail;
+    private string userPassword;
+
+}
