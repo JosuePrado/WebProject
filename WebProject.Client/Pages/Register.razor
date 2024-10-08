@@ -1,0 +1,63 @@
+@page "/register"
+@inject HttpClient Http
+
+<h3>Register</h3>
+
+
+<EditForm Model="@Model" OnValidSubmit="CreateUser" FormName="registerForm">
+    <div class="form-field">
+        <label>Email:</label>
+        <div>
+            <InputText Class="form-control" placeholder="Email" @bind-Value="@Model!.Email" />
+        </div>
+    </div>
+    <div class="form-field">
+        <label>Name:</label>
+        <div>
+            <InputText Class="form-control" placeholder="Name" @bind-Value="@Model!.Username" />
+        </div>
+    </div>
+    <div class="form-field">
+        <label>Password:</label>
+        <div>
+            <InputText Class="form-control" type="password" placeholder="Password" @bind-Value="@Model!.Password" />
+        </div>
+    </div>
+    <div class="form-field">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+
+</EditForm>
+
+@if (!string.IsNullOrEmpty(NotificationMessage))
+{
+    <div class="alert alert-info">@NotificationMessage</div>
+}
+
+@code {
+
+    [SupplyParameterFromForm]
+    private User Model { get; set; } = new User();
+    private String NotificationMessage { get; set; }
+
+    private async Task CreateUser()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("http://localhost:5268/api/users", Model);
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationMessage = "Register successful!";
+            }
+            else
+            {
+                NotificationMessage = "The register failed, please tryAgain";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+
+        }
+    }
+}

@@ -12,7 +12,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSignalR();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddInfraestructure(builder.Configuration);
-
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 app.InitializeDatabase();
@@ -35,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
 
 app.MapRazorComponents<App>()

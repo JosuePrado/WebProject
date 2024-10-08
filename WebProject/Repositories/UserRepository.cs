@@ -1,5 +1,5 @@
 using Dapper;
-using WebProject.Domain;
+using ShareModels;
 using WebProject.Repositories.Interfaces;
 using System.Data;
 using WebProject.Data.Interfaces;

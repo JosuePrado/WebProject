@@ -1,4 +1,5 @@
 using WebProject.Domain;
+using ShareModels;
 using WebProject.Events;
 using WebProject.Repositories.Interfaces;
 
