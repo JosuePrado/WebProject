@@ -1,4 +1,4 @@
-using WebProject.Domain;
+using ShareModels;
 
 namespace WebProject.Repositories.Interfaces;
 

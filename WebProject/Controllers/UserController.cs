@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using WebProject.Domain;
+using ShareModels;
+using WebProject.Data;
 using WebProject.Repositories.Interfaces;
 
 namespace WebProject.Controllers;
@@ -29,19 +30,20 @@ public class UserController(IUserRepository userManager) : ControllerBase
     public async Task<IActionResult> Create([FromBody] User user)
     {
         var createdUser = await _userManager.Add(user);
-        return createdUser == null ? BadRequest() : NotFound();
+        return createdUser == null ? BadRequest() : Ok(user);
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] string Email, string Password)
+    public async Task<IActionResult> Login([FromBody] User InputUser)
     {
-        User user = await _userManager.GetByEmail(Email);
+        User user = await _userManager.GetByEmail(InputUser.Email);
         if (user == null)
         {
             return NotFound();
         }
-        if (user.Email == Email && user.Password == Password)
+        if (user.Email == InputUser.Email && user.Password == InputUser.Password)
         {
+            UserContext.CurrentUserId = user.UserID;
             return Ok();
         }
         return BadRequest();

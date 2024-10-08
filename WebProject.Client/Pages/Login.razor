@@ -1,4 +1,6 @@
 @page "/login"
+@inject HttpClient Http
+
 <h3>Login</h3>
 
 @* <EditForm> *@
@@ -22,5 +24,38 @@
 @code {
     private string userEmail;
     private string userPassword;
+
+    private User Model { get; set; }
+
+     protected override void OnInitialized() {
+        Model = new User();  
+     }
+    private async Task LoginUser()
+    {
+        try
+        {
+            Console.WriteLine($"Entramos al login");
+            Console.WriteLine($"Usuario email : {Model.Email}");
+            Console.WriteLine($"Usuario password : {Model.Password}");
+            var response = await Http.PostAsJsonAsync("http://localhost:5268/api/users/login", Model);
+            Console.WriteLine($"Este es el response: {response}");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<User>();
+                Console.WriteLine($"Usuario logeado: {result}");
+                
+            }
+            else
+            {
+                Console.WriteLine("Error al logear el usuario");
+                
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            
+        }
+    }
 
 }
