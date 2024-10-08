@@ -26,6 +26,13 @@ public class UserController(IUserRepository userManager) : ControllerBase
         return users == null ? NotFound() : Ok(users);
     }
 
+    [HttpGet("login")]
+    public async Task<IActionResult> isLogged()
+    {
+        string user = UserContext.CurrentUserName;
+        return string.IsNullOrEmpty(user) ? NotFound() : Ok(user);
+    }
+
     [HttpPost()]
     public async Task<IActionResult> Create([FromBody] User user)
     {
@@ -33,7 +40,7 @@ public class UserController(IUserRepository userManager) : ControllerBase
         return createdUser == null ? BadRequest() : Ok(user);
     }
 
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserModel InputUser)
     {
         User user = await _userManager.GetByEmail(InputUser.Email);
