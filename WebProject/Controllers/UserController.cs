@@ -34,7 +34,7 @@ public class UserController(IUserRepository userManager) : ControllerBase
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] User InputUser)
+    public async Task<IActionResult> Login([FromBody] UserModel InputUser)
     {
         User user = await _userManager.GetByEmail(InputUser.Email);
         if (user == null)
@@ -43,8 +43,8 @@ public class UserController(IUserRepository userManager) : ControllerBase
         }
         if (user.Email == InputUser.Email && user.Password == InputUser.Password)
         {
-            UserContext.CurrentUserId = user.UserID;
-            return Ok();
+            UserContext.CurrentUserName = user.Username;
+            return Ok(UserContext.CurrentUserName);
         }
         return BadRequest();
     }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using WebProject.Data;
 using WebProject.Events;
 using WebProject.Events.Interfaces;
 
@@ -13,8 +14,9 @@ public class ChatHub : Hub
         _eventBus = eventBus;
     }
 
-    public async Task SendMessage(string user, string message, int channelId)
+    public async Task SendMessage(string message, int channelId)
     {
+        string user = UserContext.CurrentUserName;
         var newMessageEvent = new NewMessageEvent(message, user, channelId);
         _eventBus.Publish(newMessageEvent);
         await Clients.All.SendAsync("ReceiveMessage", user, message);
@@ -22,15 +24,16 @@ public class ChatHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        var userConnectedEvent = new UserConnectedEvent(Context.User.Identity.Name);
+        string user = UserContext.CurrentUserName;
+        var userConnectedEvent = new UserConnectedEvent(user);
         _eventBus.Publish(userConnectedEvent);
 
-        await Clients.All.SendAsync("UserConnected", Context.User.Identity.Name);
+        await Clients.All.SendAsync("UserConnected", user);
         await base.OnConnectedAsync();
     }
 
-    public async Task UserTyping(string user)
+    public async Task UserTyping()
     {
-        await Clients.Others.SendAsync("ReceiveTypingNotification", user);
+        await Clients.Others.SendAsync("ReceiveTypingNotification", UserContext.CurrentUserName);
     }
 }
