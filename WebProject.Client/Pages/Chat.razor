@@ -19,7 +19,7 @@
             <button @onclick="Send" class="btn btn-primary">Send</button>
         </div>
     </div>
-    
+
 
     <p>@typingNotification</p>
 
@@ -56,6 +56,7 @@ else
         {
             var encodedMsg = $"{user}: {message}";
             messages.Add(encodedMsg);
+            messageInput = "";
             StateHasChanged();
         });
 
@@ -74,9 +75,9 @@ else
         await hubConnection.StartAsync();
     }
 
-    private async Task<bool> isLogged() 
+    private async Task<bool> isLogged()
     {
-        
+
         try
         {
             var response = await Http.GetAsync("http://localhost:5268/api/users/login");
@@ -89,20 +90,20 @@ else
         return false;
     }
 
-    private async Task Send() 
+    private async Task Send()
     {
-        
+
         userIsLogged = await isLogged();
         if (userIsLogged)
         {
             await hubConnection.SendAsync("SendMessage", messageInput, channel);
         }
-        else 
+        else
         {
             ErrorMessage = "Please, you must first log in";
         }
-        
-    } 
+
+    }
     Task OnTyping() => hubConnection.SendAsync("UserTyping");
 
     public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
